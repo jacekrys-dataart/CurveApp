@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="pl.myosolutions.curveapp.viewmodel.SummatorViewModel" />
+
+        <variable
+            name="totalObject"
+            type="pl.myosolutions.curveapp.model.Total" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="32dp">
+
+            <EditText
+                android:id="@+id/cell_00"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["00"] !=null ? String.format(@string/total, vm.values["00"]) : "0"}'
+                app:layout_column="1"
+                app:layout_columnWeight="1"
+                app:layout_row="1"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(0,0)}' />
+
+            <EditText
+                android:id="@+id/cell_01"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["01"] !=null ? String.format(@string/total, vm.values["01"]) : "0"}'
+                app:layout_column="2"
+                app:layout_columnWeight="1"
+                app:layout_row="1"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(0,1)}' />
+
+
+            <EditText
+                android:id="@+id/cell_10"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["10"] !=null ? String.format(@string/total, vm.values["10"]) : "0"}'
+                app:layout_column="1"
+                app:layout_columnWeight="1"
+                app:layout_row="2"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(1,0)}' />
+
+            <EditText
+                android:id="@+id/cell_11"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["11"] !=null ? String.format(@string/total, vm.values["11"]) : "0"}'
+                app:layout_column="2"
+                app:layout_columnWeight="1"
+                app:layout_row="2"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(1,1)}' />
+
+            <EditText
+                android:id="@+id/cell_20"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["20"] !=null ? String.format(@string/total, vm.values["20"]) : "0"}'
+                app:layout_column="1"
+                app:layout_columnWeight="1"
+                app:layout_row="3"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(2,0)}' />
+
+            <EditText
+                android:id="@+id/cell_21"
+                android:hint="@string/enter_value"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text='@{vm.values["21"] !=null ? String.format(@string/total, vm.values["21"]) : "0"}'
+                app:layout_column="2"
+                app:layout_columnWeight="1"
+                app:layout_row="3"
+                app:layout_rowWeight="1"
+                app:textChangedListener='@{vm.getTextWatcher(2,1)}' />
+
+
+        </android.support.v7.widget.GridLayout>
+
+        <LinearLayout
+            android:id="@+id/total_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="@dimen/total_layout_padding"
+            android:onClick="@{() -> vm.onStartFlashing()}">
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{totalObject != null ? String.format(@string/total, totalObject.total) : @string/enter_one}'
+                android:textSize="@dimen/total_size"
+                android:textStyle="bold"
+                tools:text="@string/long_value" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

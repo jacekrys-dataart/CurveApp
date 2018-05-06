@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CurveApp</string>
+    <string name="enter_value">Enter value</string>
+    <string name="enter_one">Enter at least one value</string>
+    <string name="total">%d</string>
+    <string name="long_value">100000000000000000000000000000000000000000000000000000000000000111</string>
+</resources>

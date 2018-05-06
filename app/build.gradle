@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "pl.myosolutions.curveapp"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+dependencies {
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.design
+    implementation supportDependencies.gridLayout
+    implementation supportDependencies.annotations
+    implementation functionalProgrammingDependencies.rxjava
+    implementation functionalProgrammingDependencies.rxAndroid
+    implementation architectureComponentDependencies.viewModelAndLiveData
+    implementation networkingDependencies.retrofit2
+    implementation diDependencies.dagger
+    annotationProcessor  'com.google.dagger:dagger-compiler:2.8'
+    //noinspection GradleCompatible
+    testImplementation testingDependencies.junit
+    testImplementation testingDependencies.liveDataTestHelper
+    testImplementation testingDependencies.espresso
+    testImplementation testingDependencies.mockito
+}

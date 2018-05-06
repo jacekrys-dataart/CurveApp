@@ -1,0 +1,67 @@
+ext {
+
+    // Versions
+    supportVersion = '27.0.2'
+    supportAnnotationsVersion = '22.2.0'
+    architectureComponentVersion = '1.1.0'
+    junitVersion = '4.12'
+    rxJavaVersion = '2.1.12'
+    rxAndroidVersion = '2.0.2'
+    retrofitVersion = '2.4.0'
+    espressoVersion = '2.2.2'
+    mockitoVersion = '2.10.0'
+    daggerVersion = '2.8'
+
+
+
+    // Packages
+    supportPackage = 'com.android.support'
+    architecturePackage = 'android.arch.lifecycle'
+    junitPackage = 'junit'
+    architectureCorePackage = 'android.arch.core'
+    rxJavaPackage = 'io.reactivex.rxjava2'
+    retrofitPackage = 'com.squareup.retrofit2'
+    espressoPackage = 'com.android.support.test.espresso'
+    mockitoPackage = 'org.mockito'
+    daggerPackage = 'com.google.dagger'
+
+
+    // Dependencies
+    supportDependencies = [
+            appCompat  : buildDependency(supportPackage, 'appcompat-v7', supportVersion),
+            design     : buildDependency(supportPackage, 'design', supportVersion),
+            gridLayout : buildDependency(supportPackage, 'gridlayout-v7', supportVersion),
+            annotations: buildDependency(supportPackage, 'support-annotations', supportAnnotationsVersion)
+    ]
+
+    architectureComponentDependencies = [
+            viewModelAndLiveData: buildDependency(architecturePackage, 'extensions', architectureComponentVersion),
+    ]
+
+    testingDependencies = [
+            junit             : buildDependency(junitPackage, 'junit', junitVersion),
+            liveDataTestHelper: buildDependency(architectureCorePackage, 'core-testing', architectureComponentVersion),
+            espresso          : buildDependency(espressoPackage, 'espresso-core', espressoVersion),
+            mockito           : buildDependency(mockitoPackage, 'mockito-core', mockitoVersion)
+
+    ]
+
+    functionalProgrammingDependencies = [
+            rxjava            : buildDependency(rxJavaPackage, 'rxjava', rxJavaVersion),
+            rxAndroid         : buildDependency(rxJavaPackage, 'rxandroid', rxAndroidVersion)
+    ]
+
+    networkingDependencies = [
+            retrofit2         : buildDependency(retrofitPackage, 'retrofit', retrofitVersion)
+    ]
+
+    diDependencies = [
+            dagger            : buildDependency(daggerPackage, 'dagger', daggerVersion)
+    ]
+
+}
+
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}
