@@ -39,6 +39,37 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/rxjava.properties'
     }
+
+    flavorDimensions "flashImpl"
+
+    productFlavors {
+        timer{
+            dimension "flashImpl"
+            buildConfigField 'boolean', 'IS_TIMER', 'true'
+            buildConfigField 'boolean', 'IS_HANDLER', 'false'
+            buildConfigField 'boolean', 'IS_RXJAVA', 'false'
+            applicationId "pl.myosolutions.curveapp.timer"
+            resValue("string", "app_name", "Timer CurveApp")
+        }
+
+        handler{
+            dimension "flashImpl"
+            buildConfigField 'boolean', 'IS_TIMER', 'false'
+            buildConfigField 'boolean', 'IS_HANDLER', 'true'
+            buildConfigField 'boolean', 'IS_RXJAVA', 'false'
+            applicationId "pl.myosolutions.curveapp.handler"
+            resValue("string", "app_name", "Handler CurveApp")
+        }
+
+        rxjava{
+            dimension "flashImpl"
+            buildConfigField 'boolean', 'IS_TIMER', 'false'
+            buildConfigField 'boolean', 'IS_HANDLER', 'false'
+            buildConfigField 'boolean', 'IS_RXJAVA', 'true'
+            applicationId "pl.myosolutions.curveapp.rxjava"
+            resValue("string", "app_name", "RxJava CurveApp")
+        }
+    }
 }
 
 dependencies {
@@ -51,7 +82,7 @@ dependencies {
     implementation architectureComponentDependencies.viewModelAndLiveData
     implementation networkingDependencies.retrofit2
     implementation diDependencies.dagger
-    annotationProcessor  'com.google.dagger:dagger-compiler:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
     //noinspection GradleCompatible
     testImplementation testingDependencies.junit
     testImplementation testingDependencies.liveDataTestHelper

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CurveApp</string>
+
     <string name="enter_value">Enter value</string>
     <string name="enter_one">Enter at least one value</string>
     <string name="total">%d</string>

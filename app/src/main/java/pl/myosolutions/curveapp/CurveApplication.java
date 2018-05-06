@@ -2,6 +2,7 @@ package pl.myosolutions.curveapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import pl.myosolutions.curveapp.di.AppComponent;
 import pl.myosolutions.curveapp.di.AppModule;
@@ -9,6 +10,7 @@ import pl.myosolutions.curveapp.di.DaggerAppComponent;
 
 public class CurveApplication extends Application {
 
+    private static final String TAG = CurveApplication.class.getSimpleName();
 
     private AppComponent appComponent;
     private static CurveApplication instance;
@@ -21,6 +23,8 @@ public class CurveApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Log.d(TAG, String.format("I'm using %s build", BuildConfig.FLAVOR));
+
         initAppComponent();
     }
 

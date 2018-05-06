@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import pl.myosolutions.curveapp.BaseActivity;
+import pl.myosolutions.curveapp.BuildConfig;
 import pl.myosolutions.curveapp.CurveApplication;
 import pl.myosolutions.curveapp.R;
 import pl.myosolutions.curveapp.databinding.ActivitySummatorBinding;
@@ -59,7 +60,6 @@ public class SummatorActivity extends BaseActivity implements IHasComponent<Summ
     private Disposable disposable;
 
 
-
     //DI
     private SummatorActivityComponent mComponent;
 
@@ -101,42 +101,39 @@ public class SummatorActivity extends BaseActivity implements IHasComponent<Summ
 
     }
 
+
+    /**
+     * Implemented flavors for three different options of implementing flashing
+     */
     private void onChanged(Boolean goFlashing) {
         if (!goFlashing) binding.total.setVisibility(VISIBLE);
 
 
-        /**
-         * Option 1.
-         * To try this option uncomment this code and comment Option 2 and Option 3.
-         */
-/*        if (goFlashing) {
-            timer = new Timer();
-            timer.scheduleAtFixedRate(new FlashingTask(), TIME_PERIOD, TIME_PERIOD);
-        } else if (timer != null) {
-            timer.cancel();
-        }*/
-
-        /**
-         * Option 2.
-         * To try this option uncomment this code and comment Option 1 and Option 3.
-         */
-
-      /*  if (goFlashing) {
-            handler.post(flashingRunnable);
-        } else {
-            handler.removeCallbacks(flashingRunnable);
+        if (BuildConfig.IS_TIMER) {
+            if (goFlashing) {
+                timer = new Timer();
+                timer.scheduleAtFixedRate(new FlashingTask(), TIME_PERIOD, TIME_PERIOD);
+            } else if (timer != null) {
+                timer.cancel();
+            }
         }
-*/
-        /**
-         * Option 3.
-         * To try this option uncomment this code and comment Option 1 and Option 2.
-         */
 
-        if (goFlashing) {
-            disposable = Schedulers.newThread().schedulePeriodicallyDirect(() -> flipVisibility(), TIME_PERIOD, TIME_PERIOD, TimeUnit.MILLISECONDS);
-        } else if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
+        if (BuildConfig.IS_HANDLER) {
+            if (goFlashing) {
+                handler.post(flashingRunnable);
+            } else {
+                handler.removeCallbacks(flashingRunnable);
+            }
         }
+
+        if (BuildConfig.IS_RXJAVA) {
+            if (goFlashing) {
+                disposable = Schedulers.newThread().schedulePeriodicallyDirect(() -> flipVisibility(), TIME_PERIOD, TIME_PERIOD, TimeUnit.MILLISECONDS);
+            } else if (disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+
     }
 
     private class FlashingTask extends TimerTask {
