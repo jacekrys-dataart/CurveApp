@@ -30,10 +30,14 @@ Bonus points:
 least one method not using RxJava.
 
 For this bonus points I created three different implementation of handling flashing total. 
-Timer, Handler and RxJava. You can test it with  three different .apk:
+Timer, Handler and RxJava. You can test it with  three different .apks:
+
 app-timer-debug.apk
+
 app-handler-debug.apk
+
 app-rxjava-debug.apk
+
 
 Or build it locally choosing appropriate build variant.
 I used flavors to distinguish those approaches.
