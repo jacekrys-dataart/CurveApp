@@ -21,7 +21,7 @@ indefinitely; when not flashing, the value should be visible.
 - Done
 
 ● Please include unit tests. 
-- Implemented tests for Model. Done
+- Done
 
 
 Bonus points:
