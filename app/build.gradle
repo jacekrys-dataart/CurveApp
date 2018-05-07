@@ -83,6 +83,7 @@ dependencies {
     implementation networkingDependencies.retrofit2
     implementation diDependencies.dagger
     annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    implementation 'com.annimon:stream:1.2.0'
     //noinspection GradleCompatible
     testImplementation testingDependencies.junit
     testImplementation testingDependencies.liveDataTestHelper

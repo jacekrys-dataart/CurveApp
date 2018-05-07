@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import com.annimon.stream.Stream;
+
 import java.util.HashMap;
 
 import pl.myosolutions.curveapp.StringUtility;
@@ -60,17 +62,7 @@ public class SummatorViewModel extends ViewModel {
 
 
     public Total calculateTotal() {
-        int total = 0;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            total = values.values().stream().mapToInt(Number::intValue).sum();
-        } else {
-            if (values != null) {
-                for (Integer value : values.values()) {
-                    total += value.intValue();
-                }
-            }
-        }
+        int total = Stream.of(values).mapToInt(stringIntegerEntry -> stringIntegerEntry.getValue()).sum();
 
         return new Total(total);
     }
