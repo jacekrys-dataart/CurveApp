@@ -13,8 +13,6 @@ import pl.myosolutions.curveapp.model.Total;
 
 public class SummatorViewModel extends ViewModel {
 
-    private static String TAG = SummatorViewModel.class.getSimpleName();
-
     private MutableLiveData<Total> totalObservable;
     public HashMap<String, Integer> values = new HashMap<>();
     public Total totalModel;
@@ -28,7 +26,7 @@ public class SummatorViewModel extends ViewModel {
     public LiveData<Total> getTotal() {
         if (totalObservable == null) {
             totalObservable = new MutableLiveData<>();
-            totalObservable.setValue(totalModel.calculateTotal(values));
+            totalObservable.setValue(calculateTotal());
         }
         return totalObservable;
     }
@@ -61,13 +59,30 @@ public class SummatorViewModel extends ViewModel {
     }
 
 
+    public Total calculateTotal() {
+        int total = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            total = values.values().stream().mapToInt(Number::intValue).sum();
+        } else {
+            if (values != null) {
+                for (Integer value : values.values()) {
+                    total += value.intValue();
+                }
+            }
+        }
+
+        return new Total(total);
+    }
+
+
     public void onStartFlashing() {
         isFlashingOn.setValue(!isFlashingOn.getValue());
     }
 
     public void onValueEdited(int row, int column, int value) {
         values.put(StringUtility.stringFromNumbers(row, column), value);
-        totalObservable.setValue(totalModel.calculateTotal(values));
+        totalObservable.setValue(calculateTotal());
     }
 
 }

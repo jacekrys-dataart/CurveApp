@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 import pl.myosolutions.curveapp.model.Total;
 import pl.myosolutions.curveapp.viewmodel.SummatorViewModel;
 
+import static org.junit.Assert.assertEquals;
+
 public class SummatorViewModelTest {
 
     @Rule
@@ -117,5 +119,29 @@ public class SummatorViewModelTest {
         Mockito.verify(observer).onChanged(new Total(84));
 
     }
+
+
+    @Test
+    public void totalCalculationTest_CalculatesPositive(){
+
+        SummatorViewModel summatorViewModel = new SummatorViewModel();
+        Observer<Total> observer = Mockito.mock(Observer.class);
+
+        //when
+        summatorViewModel.getTotal().observeForever(observer);
+
+        summatorViewModel.onValueEdited(0, 0, 2);
+        summatorViewModel.onValueEdited(0, 1, 10);
+        summatorViewModel.onValueEdited(1, 0, 2);
+        summatorViewModel.onValueEdited(1, 1, 10);
+        summatorViewModel.onValueEdited(2, 0, 2);
+        summatorViewModel.onValueEdited(2, 1, 10);
+
+        //then
+        Total calculatedTotal = summatorViewModel.calculateTotal();
+        assertEquals("Total mismatch!",36, calculatedTotal.getTotal());
+    }
+
+
 
 }

@@ -3,19 +3,11 @@ package pl.myosolutions.curveapp.view;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import pl.myosolutions.curveapp.BaseActivity;
-import pl.myosolutions.curveapp.BuildConfig;
 import pl.myosolutions.curveapp.CurveApplication;
 import pl.myosolutions.curveapp.R;
 import pl.myosolutions.curveapp.databinding.ActivitySummatorBinding;
@@ -23,11 +15,16 @@ import pl.myosolutions.curveapp.di.DaggerSummatorActivityComponent;
 import pl.myosolutions.curveapp.di.IHasComponent;
 import pl.myosolutions.curveapp.di.SummatorActivityComponent;
 import pl.myosolutions.curveapp.di.SummatorActivityModule;
+import pl.myosolutions.curveapp.flashing.FlashingCallback;
+import pl.myosolutions.curveapp.flashing.handler.FlashingHandler;
 import pl.myosolutions.curveapp.viewmodel.SummatorViewModel;
 
 import static android.view.View.VISIBLE;
 
 /***
+ *
+ * Implemented flavors for three different options of implementing flashing
+ *
  * There are three ways of implementing Flashing total
  * Option 1:
  * Using simple Timer
@@ -36,29 +33,15 @@ import static android.view.View.VISIBLE;
  * Using Handler and Runnable
  *
  * Option 3:
- * Using RxJava's Disposable, Scheduler
+ * Using RxJava's Disposable
  */
-public class SummatorActivity extends BaseActivity implements IHasComponent<SummatorActivityComponent> {
-
-    private long TIME_PERIOD = 500L;
+public class SummatorActivity extends BaseActivity implements IHasComponent<SummatorActivityComponent>, FlashingCallback{
 
     //Binding
     private ActivitySummatorBinding binding;
 
     //Flashing total functionality
-    private Timer timer;
-
-    private Handler handler = new Handler();
-    private Runnable flashingRunnable = new Runnable() {
-        @Override
-        public void run() {
-            flipVisibility();
-            handler.postDelayed(this, TIME_PERIOD);
-        }
-    };
-
-    private Disposable disposable;
-
+    private FlashingHandler flashingHandler;
 
     //DI
     private SummatorActivityComponent mComponent;
@@ -99,52 +82,26 @@ public class SummatorActivity extends BaseActivity implements IHasComponent<Summ
 
         viewModel.isFlashingOn.observe(this, this::onChanged);
 
+        flashingHandler = new FlashingHandler(this);
+
     }
 
 
-    /**
-     * Implemented flavors for three different options of implementing flashing
-     */
+
     private void onChanged(Boolean goFlashing) {
         if (!goFlashing) binding.total.setVisibility(VISIBLE);
 
-
-        if (BuildConfig.IS_TIMER) {
-            if (goFlashing) {
-                timer = new Timer();
-                timer.scheduleAtFixedRate(new FlashingTask(), TIME_PERIOD, TIME_PERIOD);
-            } else if (timer != null) {
-                timer.cancel();
-            }
-        }
-
-        if (BuildConfig.IS_HANDLER) {
-            if (goFlashing) {
-                handler.post(flashingRunnable);
-            } else {
-                handler.removeCallbacks(flashingRunnable);
-            }
-        }
-
-        if (BuildConfig.IS_RXJAVA) {
-            if (goFlashing) {
-                disposable = Schedulers.newThread().schedulePeriodicallyDirect(() -> flipVisibility(), TIME_PERIOD, TIME_PERIOD, TimeUnit.MILLISECONDS);
-            } else if (disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        }
+        if (flashingHandler!=null) flashingHandler.onChanged(goFlashing);
 
     }
 
-    private class FlashingTask extends TimerTask {
-        @Override
-        public void run() {
-            flipVisibility();
-        }
-    }
 
-    private void flipVisibility() {
+    @Override
+    public void flipVisibility() {
         runOnUiThread(() -> binding.total.setVisibility(binding.total.getVisibility() == VISIBLE ? View.INVISIBLE : VISIBLE));
     }
+
+
+
 
 }

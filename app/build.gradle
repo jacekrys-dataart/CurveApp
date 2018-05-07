@@ -45,27 +45,27 @@ android {
     productFlavors {
         timer{
             dimension "flashImpl"
-            buildConfigField 'boolean', 'IS_TIMER', 'true'
-            buildConfigField 'boolean', 'IS_HANDLER', 'false'
-            buildConfigField 'boolean', 'IS_RXJAVA', 'false'
+            buildConfigField 'boolean', 'timer', 'true'
+            buildConfigField 'boolean', 'handler', 'false'
+            buildConfigField 'boolean', 'rxjava', 'false'
             applicationId "pl.myosolutions.curveapp.timer"
             resValue("string", "app_name", "Timer CurveApp")
         }
 
         handler{
             dimension "flashImpl"
-            buildConfigField 'boolean', 'IS_TIMER', 'false'
-            buildConfigField 'boolean', 'IS_HANDLER', 'true'
-            buildConfigField 'boolean', 'IS_RXJAVA', 'false'
+            buildConfigField 'boolean', 'timer', 'false'
+            buildConfigField 'boolean', 'handler', 'true'
+            buildConfigField 'boolean', 'rxjava', 'false'
             applicationId "pl.myosolutions.curveapp.handler"
             resValue("string", "app_name", "Handler CurveApp")
         }
 
         rxjava{
             dimension "flashImpl"
-            buildConfigField 'boolean', 'IS_TIMER', 'false'
-            buildConfigField 'boolean', 'IS_HANDLER', 'false'
-            buildConfigField 'boolean', 'IS_RXJAVA', 'true'
+            buildConfigField 'boolean', 'timer', 'false'
+            buildConfigField 'boolean', 'handler', 'false'
+            buildConfigField 'boolean', 'rxjava', 'true'
             applicationId "pl.myosolutions.curveapp.rxjava"
             resValue("string", "app_name", "RxJava CurveApp")
         }
